@@ -22,15 +22,6 @@ Cleaned and aggregated data stored in Azure SQL Database
 Visualization
 Dashboards created in Power BI or with Python libraries
 
-📂 Directory Structure
-covid19-reporting-adf-databricks/
-├── data/                       # Sample CSV files
-├── notebooks/                  # Databricks Notebooks (.ipynb)
-├── pipeline/                   # ADF pipeline templates (JSON)
-├── sql/                        # Azure SQL DB scripts
-├── requirements.txt            # Python dependencies
-└── README.md                   # Project overview
-
 🔄 Pipeline Flow
 [API / CSV] --> [Azure Data Factory] --> [Databricks PySpark] --> [Azure SQL DB] --> [Dashboard]
 
