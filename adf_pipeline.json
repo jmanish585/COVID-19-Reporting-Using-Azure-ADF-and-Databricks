@@ -1,0 +1,80 @@
+{
+  "name": "Covid19_Ingestion_Pipeline",
+  "properties": {
+    "activities": [
+      {
+        "name": "CopyCSVFromBlob",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource"
+          },
+          "sink": {
+            "type": "AzureBlobSink"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "CovidBlobCSV",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "DatabricksInputBlob",
+            "type": "DatasetReference"
+          }
+        ]
+      },
+      {
+        "name": "CopyAPIDataset",
+        "type": "Copy",
+        "dependsOn": [
+          {
+            "activity": "CopyCSVFromBlob",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "RestSource"
+          },
+          "sink": {
+            "type": "AzureBlobSink"
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "CovidRestAPI",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "DatabricksInputBlob",
+            "type": "DatasetReference"
+          }
+        ]
+      }
+    ],
+    "annotations": [],
+    "lastPublishTime": "2025-07-29T00:00:00Z"
+  },
+  "type": "Microsoft.DataFactory/factories/pipelines"
+}
